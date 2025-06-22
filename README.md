@@ -63,11 +63,9 @@ Then open your browser to: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 🧪 Testing (Optional / Planned)
+## 🧪 Testing (Planned)
 
-Tests can be added using your preferred testing library. Recommended:
-
-- ***
+TBA
 
 ## 🗂️ Folder Structure
 
