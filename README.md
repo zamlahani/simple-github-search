@@ -63,9 +63,11 @@ Then open your browser to: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 🧪 Testing (Planned)
+## 🧪 Testing
 
-TBA
+```bash
+npx vitest
+```
 
 ## 🗂️ Folder Structure
 
