@@ -79,7 +79,6 @@ function App() {
                     fullWidth
                     autoFocus
                     placeholder='e.g. torvalds'
-                    helperText='Enter a GitHub username to search'
                     id='outlined-basic'
                     label='Enter username'
                     variant='outlined'
