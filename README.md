@@ -63,6 +63,10 @@ Then open your browser to: [http://localhost:5173](http://localhost:5173)
 
 ---
 
+## 📺 Demo
+
+You can see a working version of the app at: [https://simple-github-search.vercel.app/](https://simple-github-search.vercel.app/)
+
 ## 🧪 Testing
 
 ```bash
