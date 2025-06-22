@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import './App.css';
-import { Button, Container, CssBaseline, Grid, TextField } from '@mui/material';
+import {
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  List,
+  TextField,
+} from '@mui/material';
 import { githubService } from './service/github';
-
-interface User {
-  login: string;
-}
+import type { User } from './types/user.types';
+import MyListItem from './components/MyListItem';
 
 function App() {
   const [username, setUsername] = useState<string>('');
@@ -18,9 +23,14 @@ function App() {
       const res = await githubService.request(
         `GET /search/users?q=${encodeURIComponent(username)}&per_page=5`
       );
-      setUsers(
-        res.data.items.map((val: { login: any }) => ({ login: val.login }))
+      console.log('~ ~ res.data:', res.data);
+      const newUsers: User[] = res.data.items.map(
+        (val: any): User => ({
+          login: val.login,
+          reposUrl: val.repos_url,
+        })
       );
+      setUsers(newUsers);
     } catch (err) {
       console.log('~ ~ err:', err);
       setUsers([]);
@@ -59,11 +69,13 @@ function App() {
                 Search
               </Button>
             </div>
-            {users.map((user) => (
-              <div key={user.login}>{user.login}</div>
-            ))}
           </Grid>
         </Grid>
+        <List>
+          {users.map((user) => (
+            <MyListItem user={user} key={user.login} />
+          ))}
+        </List>
       </Container>
     </>
   );
