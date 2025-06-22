@@ -69,22 +69,22 @@ function MyListItem({ user }: { user: User }) {
           <Typography>{user.login}</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: '1rem' }}>
-          <Grid container direction={'column'} gap={2}>
-            {isLoading ? (
-              <div style={{ textAlign: 'center' }}>
-                <CircularProgress />
-              </div>
-            ) : errorMessage ? (
-              <Typography
-                style={{
-                  paddingTop: '0.5rem',
-                  color: theme.palette.error.main,
-                }}
-              >
-                {errorMessage}
-              </Typography>
-            ) : repos.length ? (
-              repos.map((r) => (
+          {isLoading ? (
+            <div style={{ textAlign: 'center' }}>
+              <CircularProgress />
+            </div>
+          ) : errorMessage ? (
+            <Typography
+              style={{
+                paddingTop: '0.5rem',
+                color: theme.palette.error.main,
+              }}
+            >
+              {errorMessage}
+            </Typography>
+          ) : repos.length ? (
+            <Grid container direction={'column'} gap={2}>
+              {repos.map((r) => (
                 <Grid
                   key={r.name}
                   style={{
@@ -92,8 +92,12 @@ function MyListItem({ user }: { user: User }) {
                     padding: '0.5rem',
                   }}
                 >
-                  <Grid container justifyContent={'space-between'}>
-                    <Grid>
+                  <Grid
+                    container
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                  >
+                    <Grid sx={{ maxWidth: 280 }}>
                       <Typography
                         component={'b'}
                         sx={{ fontSize: '1.2rem', fontWeight: '500' }}
@@ -110,15 +114,18 @@ function MyListItem({ user }: { user: User }) {
                       </Stack>
                     </Grid>
                   </Grid>
-                  <Typography component={r.description ? 'div' : 'i'}>
+                  <Typography
+                    variant='body2'
+                    component={r.description ? 'div' : 'i'}
+                  >
                     {r.description ?? 'No description'}
                   </Typography>
                 </Grid>
-              ))
-            ) : (
-              <Typography component={'i'}>No repository found</Typography>
-            )}
-          </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography component={'i'}>No repository found</Typography>
+          )}
         </AccordionDetails>
       </Accordion>
     </ListItem>
