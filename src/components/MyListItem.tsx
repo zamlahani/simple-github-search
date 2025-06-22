@@ -27,8 +27,7 @@ function MyListItem({ user }: { user: User }) {
     setErrorMessage('');
     try {
       const res = await githubService.request(`GET /users/${user.login}/repos`);
-      console.log('repos of:', user.login);
-      console.log('~ ~ res.data:', res.data);
+
       const newRepos: Repository[] = res.data.map(
         (r: {
           name: any;
@@ -40,6 +39,7 @@ function MyListItem({ user }: { user: User }) {
           stargazersCount: r.stargazers_count,
         })
       );
+
       setRepos(newRepos);
     } catch (err: unknown) {
       if (err instanceof RequestError) {

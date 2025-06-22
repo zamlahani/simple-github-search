@@ -25,7 +25,9 @@ function App() {
 
   const theme = useTheme();
 
-  async function onSearchClick() {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     setHasSearched(true);
     if (!username) {
       setErrorMessage('Username cannot be empty');
@@ -39,23 +41,23 @@ function App() {
       const res = await githubService.request(
         `GET /search/users?q=${encodeURIComponent(username)}&per_page=5`
       );
-      console.log('~ ~ res.data:', res.data);
+
       const newUsers: User[] = res.data.items.map(
-        (val: any): User => ({
+        (val: { login: any; repos_url: any }): User => ({
           login: val.login,
           reposUrl: val.repos_url,
         })
       );
+
       setUsers(newUsers);
     } catch (error) {
-      console.log('~ ~ error:', error);
+      console.error('~ ~ error:', error);
       if (error instanceof Error) {
         console.error('Error message:', error.message);
         setErrorMessage(error.message);
       } else if (error instanceof RequestError) {
         setErrorMessage(`${error.response?.data}`);
       } else {
-        // handle all other errors
         setErrorMessage('Unknown error');
       }
       setUsers([]);
@@ -69,33 +71,35 @@ function App() {
       <CssBaseline />
       <div style={{ paddingTop: '1.5rem' }}>
         <Container>
-          <Grid container spacing={2} alignItems={'stretch'}>
-            <Grid size={{ xs: 12, sm: 8 }}>
-              <div>
-                <TextField
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2} alignItems={'stretch'}>
+              <Grid size={{ xs: 12, sm: 8 }}>
+                <div>
+                  <TextField
+                    fullWidth
+                    id='outlined-basic'
+                    label='Enter username'
+                    variant='outlined'
+                    value={username}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                  />
+                </div>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <Button
+                  disabled={isLoading}
+                  type='submit'
                   fullWidth
-                  id='outlined-basic'
-                  label='Enter username'
-                  variant='outlined'
-                  value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
-              </div>
+                  variant='contained'
+                  sx={{ height: '100%' }}
+                >
+                  Search
+                </Button>
+              </Grid>
             </Grid>
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Button
-                loading={isLoading}
-                onClick={onSearchClick}
-                fullWidth
-                variant='contained'
-                sx={{ height: '100%' }}
-              >
-                Search
-              </Button>
-            </Grid>
-          </Grid>
+          </form>
           {!hasSearched ? (
             ''
           ) : isLoading ? (
