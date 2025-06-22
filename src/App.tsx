@@ -52,11 +52,11 @@ function App() {
       setUsers(newUsers);
     } catch (error) {
       console.error('~ ~ error:', error);
-      if (error instanceof Error) {
+      if (error instanceof RequestError) {
+        setErrorMessage(`${error.response?.data}`);
+      } else if (error instanceof Error) {
         console.error('Error message:', error.message);
         setErrorMessage(error.message);
-      } else if (error instanceof RequestError) {
-        setErrorMessage(`${error.response?.data}`);
       } else {
         setErrorMessage('Unknown error');
       }
@@ -77,6 +77,9 @@ function App() {
                 <div>
                   <TextField
                     fullWidth
+                    autoFocus
+                    placeholder='e.g. torvalds'
+                    helperText='Enter a GitHub username to search'
                     id='outlined-basic'
                     label='Enter username'
                     variant='outlined'
@@ -89,7 +92,7 @@ function App() {
               </Grid>
               <Grid size={{ xs: 12, sm: 4 }}>
                 <Button
-                  disabled={isLoading}
+                  disabled={isLoading || !username.trim()}
                   type='submit'
                   fullWidth
                   variant='contained'
