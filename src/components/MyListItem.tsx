@@ -10,10 +10,10 @@ import {
   useTheme,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import StarIcon from '@mui/icons-material/Star';
 import type { Repository, User } from '../types/user.types';
 import { useEffect, useState } from 'react';
 import { githubService } from '../service/github';
-import { Star } from '@mui/icons-material';
 import { RequestError } from 'octokit';
 
 function MyListItem({ user }: { user: User }) {
@@ -71,7 +71,7 @@ function MyListItem({ user }: { user: User }) {
         <AccordionDetails sx={{ padding: '1rem' }}>
           {isLoading ? (
             <div style={{ textAlign: 'center' }}>
-              <CircularProgress />
+              <CircularProgress data-testid='loading-spinner' />
             </div>
           ) : errorMessage ? (
             <Typography
@@ -110,7 +110,7 @@ function MyListItem({ user }: { user: User }) {
                         <Typography fontWeight={500}>
                           {r.stargazersCount}
                         </Typography>
-                        <Star fontSize='small' />
+                        <StarIcon fontSize='small' />
                       </Stack>
                     </Grid>
                   </Grid>
