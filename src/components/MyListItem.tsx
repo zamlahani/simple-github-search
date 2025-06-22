@@ -87,27 +87,36 @@ function MyListItem({ user }: { user: User }) {
               repos.map((r) => (
                 <Grid
                   key={r.name}
-                  sx={{
+                  style={{
                     background: theme.palette.grey[500],
                     padding: '0.5rem',
                   }}
                 >
                   <Grid container justifyContent={'space-between'}>
                     <Grid>
-                      <b style={{ fontSize: '1.2rem' }}>{r.name}</b>
+                      <Typography
+                        component={'b'}
+                        sx={{ fontSize: '1.2rem', fontWeight: '500' }}
+                      >
+                        {r.name}
+                      </Typography>
                     </Grid>
                     <Grid>
                       <Stack direction='row' alignItems='center' spacing={0.5}>
-                        <Typography>{r.stargazersCount}</Typography>
+                        <Typography fontWeight={500}>
+                          {r.stargazersCount}
+                        </Typography>
                         <Star fontSize='small' />
                       </Stack>
                     </Grid>
                   </Grid>
-                  <div>{r.description ?? <i> No description</i>}</div>
+                  <Typography component={r.description ? 'div' : 'i'}>
+                    {r.description ?? 'No description'}
+                  </Typography>
                 </Grid>
               ))
             ) : (
-              <i>No repository found</i>
+              <Typography component={'i'}>No repository found</Typography>
             )}
           </Grid>
         </AccordionDetails>
